@@ -1,0 +1,73 @@
+<div layout="column" style="height:100vh;">
+
+  <app-tool-bar (click)="sidenav.toggle()"></app-tool-bar>
+
+  <mat-sidenav-container class="example-container">
+    <mat-sidenav class="example-sidenav" style="border-right: 5px solid rgb(250,250,250)" #sidenav mode="over">
+      <mat-nav-list>
+        <a mat-list-item routerLinkActive="active" routerLink="/" (click)="sidenav.close()">
+          <mat-icon class="blue-button" style="font-size: 20px; vertical-align: middle">home</mat-icon>
+          <span>Home</span>
+        </a>
+        <a mat-list-item routerLinkActive="active" routerLink="/documentclustering" (click)="sidenav.close()">
+          <mat-icon class="blue-button" style="font-size: 20px; vertical-align: middle">article</mat-icon>
+          <span>Document Clustering</span>
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content class="example-sidenav-content" style="margin-left: 20px;">
+
+      <ktd-grid 
+        [cols]="cols" 
+        [rowHeight]="rowHeight" 
+        [layout]="layout" 
+        [gap]="20" 
+        [scrollableParent]="document"
+        [compactType]="compactType" (layoutUpdated)="onLayoutUpdated($event)"
+        (gridItemResize)="onGridItemResize($event)">
+
+        <ktd-grid-item id="0">
+          <app-plotly 
+            [plotlyId]="'0-p'" 
+            [config]="clusterChart.config" 
+            [data]="clusterChart.data"
+            [layout]="clusterChart.layout">
+          </app-plotly>
+        </ktd-grid-item>
+
+        <ktd-grid-item id="1">
+          <div #plotlyjsGraph2></div>
+        </ktd-grid-item>
+
+        <ktd-grid-item style="background-color:white" id="2">
+          <ngx-charts-bar-vertical-stacked 
+            [view]="layoutSizes['2']" 
+            [scheme]="nxgBarStackedChart.colorScheme2"
+            [results]="nxgBarStackedChart.data" 
+            [gradient]="false" 
+            [xAxis]="nxgBarStackedChart.xAxis" 
+            [yAxis]="nxgBarStackedChart.yAxis" 
+            [legend]="true"
+            [showXAxisLabel]="nxgBarStackedChart.showXAxisLabel" 
+            [showYAxisLabel]="nxgBarStackedChart.showYAxisLabel" 
+            [xAxisLabel]="nxgBarStackedChart.xAxisLabel"
+            [yAxisLabel]="nxgBarStackedChart.yAxisLabel" 
+            [animations]="nxgBarStackedChart.animations" 
+            (select)="onSelect('0')">
+          </ngx-charts-bar-vertical-stacked>
+        </ktd-grid-item>
+
+        <ktd-grid-item id="3">
+          <angular-tag-cloud style="background-color:white" 
+            [data]="data" 
+            [width]="mywidth" 
+            [height]="myheight"
+            [overflow]="options.overflow">
+          </angular-tag-cloud>
+        </ktd-grid-item>
+
+      </ktd-grid>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
